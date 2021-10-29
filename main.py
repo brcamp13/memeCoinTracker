@@ -4,13 +4,12 @@ from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 
 
-def get_meme_coins_from_api():
+def get_all_cryptocurrencies_from_api():
     # api_meme_coin_search_strings = constants.MEME_COIN_SEARCH_STRINGS
     url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
     parameters = {
-        'start':'1',
-        'limit':'5000',
-        'convert':'USD'
+        'convert':'USD',
+        'limit':'25'
     }
     headers = {
         'Accepts': 'application/json',
@@ -23,9 +22,21 @@ def get_meme_coins_from_api():
     try:
         response = session.get(url, params=parameters)
         data = json.loads(response.text)
-        print(data)
+        cryptocurrencies = data['data']
+        cryptocurrency_names = [cryptocurrency['name'] for cryptocurrency in cryptocurrencies]
+        return cryptocurrency_names
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
+        return e
+
+def get_meme_coins():
+    all_cryptocurrencies = get_all_cryptocurrencies_from_api()
+    meme_coins = []
+    for meme_coin_search_string in constants.MEME_COIN_SEARCH_STRINGS:
+        for cryptocurrency in all_cryptocurrencies:
+            if meme_coin_search_string.upper() in cryptocurrency.upper():
+                meme_coins.append(cryptocurrency)
+    return set(meme_coins)
     
 
 def create_meme_coins_file(meme_coins):
@@ -42,7 +53,7 @@ def add_meme_coins_file_to_folder(meme_coins_file):
 
 if __name__ == "__main__":
     # Query api w/ list of meme coin strings
-    get_meme_coins_from_api()
+    print(get_meme_coins())
     # Create a new file called potentialMemeCoin_s<DATE>_<TIME HH:MM:SS>
     # Check if meme coin folder exists locally, if not, create it, otherwise add new file to it
     # Print out the meme coin findings as well & inform user of file name that they've been saved to
