@@ -5,7 +5,6 @@ import json
 
 
 def get_all_cryptocurrencies_from_api():
-    # api_meme_coin_search_strings = constants.MEME_COIN_SEARCH_STRINGS
     url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
     parameters = {
         'convert':'USD',
