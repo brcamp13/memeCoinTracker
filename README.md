@@ -1,6 +1,6 @@
 # Tracker for potential meme coins utilizing coinmarketcap api
 
-### Setting up
+## Setting up
 
 
 ##### Get API key from coinmarketcap
@@ -9,6 +9,6 @@
 ##### Add API_KEY = 'your api key' which you get from coinmarketcap api website
 
 
-### Running
+## Running
 
 ##### pipenv run python main.py
