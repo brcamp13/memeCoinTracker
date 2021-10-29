@@ -8,7 +8,9 @@ def get_all_cryptocurrencies_from_api():
     url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
     parameters = {
         'convert':'USD',
-        'limit':'25'
+        'sort_dir':'desc',
+        'limit':'5000',
+        'cryptocurrency_type':'tokens'
     }
     headers = {
         'Accepts': 'application/json',
@@ -52,7 +54,9 @@ def add_meme_coins_file_to_folder(meme_coins_file):
 
 if __name__ == "__main__":
     # Query api w/ list of meme coin strings
-    print(get_meme_coins())
+    meme_coins = get_meme_coins()
+    print(meme_coins)
+    print(str(len(meme_coins)) + ' coins returned')
     # Create a new file called potentialMemeCoin_s<DATE>_<TIME HH:MM:SS>
     # Check if meme coin folder exists locally, if not, create it, otherwise add new file to it
     # Print out the meme coin findings as well & inform user of file name that they've been saved to
