@@ -11,4 +11,7 @@
 
 ## Running
 
+##### open terminal and get cwd to be root dir of this project
+
 ##### pipenv run python main.py
+##### Also, will add this functionality, but unless you are on a paid tier of the API, you will likely just want to get as many tokens as possible and then save them locally on your machine so you don't have to spam the API and use up all of your credits

@@ -2,6 +2,8 @@ import constants
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
+from datetime import datetime
+import os
 
 
 def get_all_cryptocurrencies_from_api():
@@ -41,22 +43,38 @@ def get_meme_coins():
     
 
 def create_meme_coins_file(meme_coins):
-    return 'file created'
+    datetime_file_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    file_name = os.getcwd().join('meme_coins ' + datetime_file_string)
+
+    os.chdir("memeCoins")
+
+    with open(file_name, 'w') as f:
+        for meme_coin in sorted(meme_coins):
+            f.write("%s\n" % meme_coin)
+
+    os.chdir('../')
+
+    return file_name
 
 def check_if_meme_coins_folder_exists():
-    return False
+    cwd = os.getcwd()
+    return os.path.isdir(cwd + '/memeCoins')
 
 def create_meme_coins_folder():
-    return True
+    os.mkdir("memeCoins")
 
 def add_meme_coins_file_to_folder(meme_coins_file):
     return True
 
 if __name__ == "__main__":
+    # Check if meme coin folder exists locally, if not, create it
+    if not check_if_meme_coins_folder_exists():
+        create_meme_coins_folder()
     # Query api w/ list of meme coin strings
     meme_coins = get_meme_coins()
+    # Create a new file called potentialMemeCoin_s<DATE>_<TIME HH:MM:SS>
+    meme_coins_file_name = create_meme_coins_file(meme_coins)
+    # Print out the meme coin findings as well & inform user of file name that they've been saved to
     print(meme_coins)
     print(str(len(meme_coins)) + ' coins returned')
-    # Create a new file called potentialMemeCoin_s<DATE>_<TIME HH:MM:SS>
-    # Check if meme coin folder exists locally, if not, create it, otherwise add new file to it
-    # Print out the meme coin findings as well & inform user of file name that they've been saved to
+    print('File with coins can be found in ' + os.getcwd() + '/' + meme_coins_file_name)
