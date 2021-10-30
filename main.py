@@ -8,7 +8,7 @@ import os
 
 def get_all_cryptocurrencies_from_api():
     url = 'https://rest.coinapi.io/v1/assets'
-    headers = {'X-CoinAPI-Key' : constants.COIN_IO_API_KEY}
+    headers = {'X-CoinAPI-Key' : constants.API_KEY}
     try:
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)
